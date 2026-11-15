@@ -329,7 +329,7 @@ body {
 .thumb {
     aspect-ratio: 1 / 1;
     margin-bottom: 14px;
-    background-color: var(--bg-slot);
+    background-color: var(--bg-panel);
     border: 3px solid var(--border-color);
     box-shadow: inset 3px 3px 0 rgba(0, 0, 0, 0.5);
     overflow: hidden;
