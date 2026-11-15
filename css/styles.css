@@ -7,7 +7,7 @@
 }
 
 :root {
-	--bg-sidebar: #191417;
+    --bg-sidebar: #191417;
     --bg-sidebar-hover: #261f23;
     --bg-panel: rgba(22, 17, 20, 0.94);
     --bg-slot: #100c0e;
@@ -121,7 +121,7 @@ body {
     width: 42px;
     height: 42px;
     object-fit: contain;
-    image-rendering: auto;	
+    image-rendering: auto;    
 }
 
 .sidebar-title {
@@ -241,7 +241,7 @@ body {
 }
 
 .about-body h1 {
-	color: var(--accent-color);
+    color: var(--accent-color);
     font-size: 2.2rem;
     font-weight: normal;
     line-height: 1.15;
@@ -328,7 +328,6 @@ body {
     aspect-ratio: 1 / 1;
     margin-bottom: 14px;
     background-color: var(--bg-slot);
-    /* Tablero de ajedrez sutil mientras no hay imagen */
     background-image:
         linear-gradient(45deg, rgba(255,255,255,0.03) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.03) 75%),
         linear-gradient(45deg, rgba(255,255,255,0.03) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.03) 75%);
