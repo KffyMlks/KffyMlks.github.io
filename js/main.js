@@ -5,6 +5,7 @@ const closeActive = () => {
     if (!active) return;
     active.viewer.dispose();
     active.canvas.remove();
+    active.btn.classList.remove('fade-out');
     active.btn.hidden = false;
     active.item.classList.remove('is-3d');
     active = null;
@@ -15,6 +16,9 @@ const openSkin = item => {
 
     const thumb = item.querySelector('.thumb');
     const btn = item.querySelector('.render-btn');
+    
+    btn.classList.add('fade-out');
+
     const canvas = document.createElement('canvas');
     canvas.className = 'skin-canvas';
     thumb.appendChild(canvas);
@@ -26,14 +30,19 @@ const openSkin = item => {
         skin: item.dataset.skin,
         model: item.dataset.model || 'default'
     });
+    
     viewer.animation = new skinview3d.IdleAnimation();
     viewer.controls.enableZoom = false;
     viewer.autoRotate = false;
     viewer.autoRotateSpeed = 1;
 
-    btn.hidden = true;
     item.classList.add('is-3d');
     active = { item, viewer, canvas, btn };
+
+    setTimeout(() => {
+        btn.hidden = true;
+        canvas.classList.add('loaded');
+    }, 300);
 };
 
 skinItems.forEach(item => {
