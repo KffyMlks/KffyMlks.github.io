@@ -14,9 +14,11 @@
 <body>
     <div class="layout">
         <aside class="sidebar">
-            <a href="#about" class="sidebar-header">
-                <img src="images/icon.png" alt="" class="sidebar-logo">
-                <span class="sidebar-title">KoffyMilk's<br>Portfolio</span>
+            <a href="#about" class="sidebar-header" aria-label="KoffyMilk's Portfolio">
+                <picture>
+                    <source media="(max-width: 800px)" srcset="images/icon.png">
+                    <img src="images/banner.png" alt="KoffyMilk's Portfolio" class="sidebar-banner">
+                </picture>
             </a>
 
             <nav class="sidebar-nav" aria-label="Main">
