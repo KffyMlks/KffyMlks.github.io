@@ -72,7 +72,7 @@ body {
     background-color: var(--accent-color);
 }
 
-- {
+* {
     scrollbar-width: thin;
     scrollbar-color: var(--bg-sidebar-hover) var(--bg-slot);
 }
@@ -402,7 +402,7 @@ body {
     height: 100%;
     cursor: grab;
     opacity: 0;
-    transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.4s ease-in-out;
 }
 
 .skin-canvas.loaded {
