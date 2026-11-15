@@ -26,11 +26,11 @@ const openSkin = item => {
         skin: item.dataset.skin,
         model: item.dataset.model || 'default'
     });
-    viewer.animation = new skinview3d.IdleAnimation();
+    viewer.animation = new skinview3d.WalkingAnimation();
     viewer.controls.enableZoom = false;
     viewer.autoRotate = false;
     viewer.autoRotateSpeed = 1;
-    viewer.globalLight.intensity = 3;     
+    viewer.globalLight.intensity = 5;     
 
     btn.hidden = true;
     item.classList.add('is-3d');
