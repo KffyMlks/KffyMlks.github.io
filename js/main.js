@@ -26,9 +26,9 @@ const openSkin = item => {
         skin: item.dataset.skin,
         model: item.dataset.model || 'default'
     });
-    viewer.animation = new skinview3d.WalkingAnimation();
+    viewer.animation = new skinview3d.IdleAnimation();
     viewer.controls.enableZoom = false;
-    viewer.autoRotate = true;
+    viewer.autoRotate = false;
     viewer.autoRotateSpeed = 1;
 
     btn.hidden = true;
