@@ -70,7 +70,6 @@ body {
     background-color: var(--accent-color);
 }
 
-/* Para Firefox */
 * {
     scrollbar-width: thin;
     scrollbar-color: var(--bg-sidebar-hover) var(--bg-slot);
@@ -88,7 +87,6 @@ body {
     overflow: hidden;
 }
 
-/* ---------- Sidebar ---------- */
 .sidebar {
     width: 280px;
     flex-shrink: 0;
@@ -160,7 +158,6 @@ body {
     background-color: var(--bg-sidebar-hover);
     color: var(--text-primary);
     border-left-color: var(--accent-color);
-    /* Botón "presionado": luz abajo-derecha, sombra arriba-izquierda */
     box-shadow: inset -4px -4px 0 rgba(0, 0, 0, 0.35),
                 inset 4px 4px 0 rgba(255, 255, 255, 0.07);
 }
@@ -174,13 +171,11 @@ body {
     font-size: 0.8rem;
 }
 
-/* ---------- Contenido ---------- */
 .main-content {
     flex: 1;
     min-width: 0;
     overflow-y: auto;
     padding: 56px 48px 96px;
-    /* Viñeta suave para que el fondo no compita con el contenido */
     background: radial-gradient(ellipse at center, transparent 40%, rgba(10, 6, 16, 0.55) 100%);
 }
 
@@ -213,7 +208,6 @@ body {
     font-size: 1rem;
 }
 
-/* ---------- Panel (estilo GUI de Minecraft) ---------- */
 .panel {
     background: var(--bg-panel);
     border: 4px solid var(--border-color);
@@ -221,7 +215,6 @@ body {
     padding: 40px;
 }
 
-/* ---------- About ---------- */
 .about {
     display: grid;
     grid-template-columns: 168px 1fr;
@@ -286,7 +279,6 @@ body {
     margin-top: 24px;
 }
 
-/* ---------- Botones ---------- */
 .btn {
     display: inline-block;
     padding: 12px 22px;
@@ -309,7 +301,6 @@ body {
     transform: translateY(2px);
 }
 
-/* ---------- Galerías ---------- */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -370,7 +361,6 @@ body {
     color: var(--text-muted);
 }
 
-/* ---------- Responsive ---------- */
 @media (max-width: 800px) {
     .layout {
         flex-direction: column;
