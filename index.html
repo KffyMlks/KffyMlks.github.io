@@ -8,12 +8,11 @@
 
     <link rel="icon" type="image/png" href="images/icon.png">
     <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/skinview3d@3.1.0/bundles/skinview3d.bundle.js" defer></script>
     <script src="js/main.js" defer></script>
 </head>
 <body>
-
     <div class="layout">
-
         <aside class="sidebar">
             <a href="#about" class="sidebar-header">
                 <img src="images/icon.png" alt="" class="sidebar-logo">
@@ -33,7 +32,6 @@
 
         <main class="main-content">
             <div class="content">
-
                 <section id="about" class="section">
                     <div class="panel about">
                         <div class="avatar">
@@ -50,10 +48,35 @@
                     </div>
                 </section>
 
+                <section id="skins" class="section">
+                    <header class="section-header">
+                        <h2>Skins</h2>
+                        <p>Custom player skins, classic and slim.</p>
+                    </header>
+                    <div class="grid grid-tall">
+                        <article class="item" data-skin="images/skins/skin1.png" data-model="default">
+                            <div class="thumb">
+                                <button class="render-btn" type="button" aria-label="View Skin name in 3D">
+                                    <img src="images/renders/skin1.png" alt="Render of Skin name">
+                                </button>
+                            </div>
+                            <h3>Skin name</h3>
+                            <p>Classic · 64×64</p>
+                        </article>
+
+                        <article class="item" data-skin="images/skins/skin2.png" data-model="slim">
+                            <div class="thumb">
+                                <button class="render-btn" type="button" aria-label="View Skin name in 3D">
+                                    <img src="images/renders/skin2.png" alt="Render of Skin name">
+                                </button>
+                            </div>
+                            <h3>Skin name</h3>
+                            <p>Slim · 64×64</p>
+                        </article>
+                    </div>
+                </section>
             </div>
         </main>
-
     </div>
-
 </body>
 </html>
