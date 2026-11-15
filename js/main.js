@@ -1,24 +1,34 @@
 const skinItems = [...document.querySelectorAll('.item[data-skin]')];
 let active = null;
+const FADE = 300; // ms, que coincide con las transiciones del CSS
 
 const closeActive = () => {
     if (!active) return;
-    active.viewer.dispose();
-    active.canvas.remove();
-    active.btn.classList.remove('fade-out');
-    active.btn.hidden = false;
-    active.item.classList.remove('is-3d');
+    const { item, viewer, canvas, btn, timer } = active;
     active = null;
+    clearTimeout(timer);
+    item.classList.remove('is-3d');
+    
+    // El render vuelve con fade in
+    btn.hidden = false;
+    void btn.offsetWidth; // Fuerza reflow para que la transición se ejecute
+    btn.classList.remove('fade-out');
+    
+    // El modelo hace fade out y luego se destruye
+    canvas.classList.remove('loaded');
+    setTimeout(() => {
+        viewer.dispose();
+        canvas.remove();
+    }, FADE);
 };
 
 const openSkin = item => {
+    if (active && active.item === item) return;
     closeActive();
 
     const thumb = item.querySelector('.thumb');
     const btn = item.querySelector('.render-btn');
     
-    btn.classList.add('fade-out');
-
     const canvas = document.createElement('canvas');
     canvas.className = 'skin-canvas';
     thumb.appendChild(canvas);
@@ -37,12 +47,17 @@ const openSkin = item => {
     viewer.autoRotateSpeed = 1;
 
     item.classList.add('is-3d');
-    active = { item, viewer, canvas, btn };
 
-    setTimeout(() => {
+    // Crossfade: el render sale mientras el modelo entra
+    void canvas.offsetWidth;
+    canvas.classList.add('loaded');
+    btn.classList.add('fade-out');
+
+    const timer = setTimeout(() => {
         btn.hidden = true;
-        canvas.classList.add('loaded');
-    }, 300);
+    }, FADE);
+
+    active = { item, viewer, canvas, btn, timer };
 };
 
 skinItems.forEach(item => {
@@ -61,29 +76,3 @@ window.addEventListener('resize', () => {
     const thumb = active.item.querySelector('.thumb');
     active.viewer.setSize(thumb.clientWidth, thumb.clientHeight);
 });
-
-(() => {
-    const main = document.querySelector('.main-content');
-    const links = [...document.querySelectorAll('.nav-link')];
-    const sections = links
-        .map(link => document.querySelector(link.getAttribute('href')))
-        .filter(Boolean);
-
-    const setActive = id => {
-        links.forEach(link => {
-            const on = link.getAttribute('href') === `#${id}`;
-            link.classList.toggle('active', on);
-            if (on) link.setAttribute('aria-current', 'page');
-            else link.removeAttribute('aria-current');
-        });
-    };
-
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) setActive(entry.target.id);
-        });
-    }, { root: main, rootMargin: '-35% 0px -55% 0px' });
-
-    sections.forEach(section => observer.observe(section));
-    setActive('about');
-})();
