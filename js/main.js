@@ -30,6 +30,7 @@ const openSkin = item => {
     viewer.controls.enableZoom = false;
     viewer.autoRotate = false;
     viewer.autoRotateSpeed = 1;
+    viewer.globalLight.intensity = 3;     
 
     btn.hidden = true;
     item.classList.add('is-3d');
