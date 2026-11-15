@@ -1,48 +1,65 @@
 const skinItems = [...document.querySelectorAll('.item[data-skin]')];
 let active = null;
 
-const closeActive = () => {
-    if (!active) return;
-    active.viewer.dispose();
-    active.canvas.remove();
-    active.btn.classList.remove('fade-out');
-    active.btn.hidden = false;
-    active.item.classList.remove('is-3d');
+const closeActive = (callback) => {
+    if (!active) {
+        if (callback) callback();
+        return;
+    }
+
+    const currentActive = active;
     active = null;
+
+    currentActive.canvas.classList.remove('loaded');
+    currentActive.btn.classList.remove('fade-out');
+
+    setTimeout(() => {
+        currentActive.viewer.dispose();
+        currentActive.canvas.remove();
+        currentActive.item.classList.remove('is-3d');
+        if (callback) callback();
+    }, 300);
 };
 
 const openSkin = item => {
-    closeActive();
+    if (active && active.item === item) return; 
 
-    const thumb = item.querySelector('.thumb');
-    const btn = item.querySelector('.render-btn');
-    
-    btn.classList.add('fade-out');
+    const executeOpen = () => {
+        const thumb = item.querySelector('.thumb');
+        const btn = item.querySelector('.render-btn');
+        
+        btn.classList.add('fade-out');
 
-    const canvas = document.createElement('canvas');
-    canvas.className = 'skin-canvas';
-    thumb.appendChild(canvas);
+        const canvas = document.createElement('canvas');
+        canvas.className = 'skin-canvas';
+        thumb.appendChild(canvas);
 
-    const viewer = new skinview3d.SkinViewer({
-        canvas,
-        width: thumb.clientWidth,
-        height: thumb.clientHeight,
-        skin: item.dataset.skin,
-        model: item.dataset.model || 'default'
-    });
-    
-    viewer.animation = new skinview3d.IdleAnimation();
-    viewer.controls.enableZoom = false;
-    viewer.autoRotate = false;
-    viewer.autoRotateSpeed = 1;
+        const viewer = new skinview3d.SkinViewer({
+            canvas,
+            width: thumb.clientWidth,
+            height: thumb.clientHeight,
+            skin: item.dataset.skin,
+            model: item.dataset.model || 'default'
+        });
+        
+        viewer.animation = new skinview3d.IdleAnimation();
+        viewer.controls.enableZoom = false;
+        viewer.autoRotate = false;
+        viewer.autoRotateSpeed = 1;
 
-    item.classList.add('is-3d');
-    active = { item, viewer, canvas, btn };
+        item.classList.add('is-3d');
+        active = { item, viewer, canvas, btn };
 
-    setTimeout(() => {
-        btn.hidden = true;
-        canvas.classList.add('loaded');
-    }, 300);
+        setTimeout(() => {
+            canvas.classList.add('loaded');
+        }, 50);
+    };
+
+    if (active) {
+        closeActive(executeOpen);
+    } else {
+        executeOpen();
+    }
 };
 
 skinItems.forEach(item => {
@@ -61,29 +78,3 @@ window.addEventListener('resize', () => {
     const thumb = active.item.querySelector('.thumb');
     active.viewer.setSize(thumb.clientWidth, thumb.clientHeight);
 });
-
-(() => {
-    const main = document.querySelector('.main-content');
-    const links = [...document.querySelectorAll('.nav-link')];
-    const sections = links
-        .map(link => document.querySelector(link.getAttribute('href')))
-        .filter(Boolean);
-
-    const setActive = id => {
-        links.forEach(link => {
-            const on = link.getAttribute('href') === `#${id}`;
-            link.classList.toggle('active', on);
-            if (on) link.setAttribute('aria-current', 'page');
-            else link.removeAttribute('aria-current');
-        });
-    };
-
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) setActive(entry.target.id);
-        });
-    }, { root: main, rootMargin: '-35% 0px -55% 0px' });
-
-    sections.forEach(section => observer.observe(section));
-    setActive('about');
-})();
