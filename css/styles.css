@@ -122,6 +122,7 @@ body {
     width: 100%;
     height: auto;
     image-rendering: auto;
+    margin: 4px;
 }
 
 .sidebar-nav {
