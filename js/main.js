@@ -1,3 +1,58 @@
+const skinItems = [...document.querySelectorAll('.item[data-skin]')];
+let active = null;
+
+const closeActive = () => {
+    if (!active) return;
+    active.viewer.dispose();
+    active.canvas.remove();
+    active.btn.hidden = false;
+    active.item.classList.remove('is-3d');
+    active = null;
+};
+
+const openSkin = item => {
+    closeActive();
+
+    const thumb = item.querySelector('.thumb');
+    const btn = item.querySelector('.render-btn');
+    const canvas = document.createElement('canvas');
+    canvas.className = 'skin-canvas';
+    thumb.appendChild(canvas);
+
+    const viewer = new skinview3d.SkinViewer({
+        canvas,
+        width: thumb.clientWidth,
+        height: thumb.clientHeight,
+        skin: item.dataset.skin,
+        model: item.dataset.model || 'default'
+    });
+    viewer.animation = new skinview3d.WalkingAnimation();
+    viewer.controls.enableZoom = false;
+    viewer.autoRotate = true;
+    viewer.autoRotateSpeed = 1;
+
+    btn.hidden = true;
+    item.classList.add('is-3d');
+    active = { item, viewer, canvas, btn };
+};
+
+skinItems.forEach(item => {
+    const btn = item.querySelector('.render-btn');
+    if (btn) {
+        btn.addEventListener('click', () => openSkin(item));
+    }
+});
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeActive();
+});
+
+window.addEventListener('resize', () => {
+    if (!active) return;
+    const thumb = active.item.querySelector('.thumb');
+    active.viewer.setSize(thumb.clientWidth, thumb.clientHeight);
+});
+
 (() => {
     const main = document.querySelector('.main-content');
     const links = [...document.querySelectorAll('.nav-link')];
