@@ -374,7 +374,6 @@ body {
 
 .render-btn::after {
     font-family: 'm7', sans-serif;	
-    content: '3D';
     position: absolute;
     right: 8px;
     bottom: 8px;
