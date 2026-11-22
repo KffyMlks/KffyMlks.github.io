@@ -74,8 +74,6 @@ window.addEventListener('resize', () => {
     active.viewer.setSize(thumb.clientWidth, thumb.clientHeight);
 });
 
-
-
 const navLinks = [...document.querySelectorAll('.nav-link')];
 const mainContent = document.querySelector('.main-content');
 const sections = [...document.querySelectorAll('.section[id]')];
@@ -86,8 +84,23 @@ const setActiveNav = targetLink => {
 };
 
 navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        setActiveNav(link);
+    link.addEventListener('click', e => {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+            const target = document.querySelector(href);
+            if (target && mainContent) {
+                e.preventDefault();
+                setActiveNav(link);
+
+                const top = target.offsetTop - 24;
+                mainContent.scrollTo({
+                    top: Math.max(0, top),
+                    behavior: 'smooth'
+                });
+
+                history.pushState(null, '', href);
+            }
+        }
     });
 });
 
