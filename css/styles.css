@@ -403,32 +403,6 @@ body {
 .render-btn[hidden] {
     display: none;
 }
-
-.render-btn::after {
-    position: absolute;
-    right: 8px;
-    bottom: 8px;
-    padding: 4px 8px;
-    font-family: 'm7', sans-serif;
-    font-size: 0.8rem;
-    color: var(--text);
-    background: var(--bg);
-    border: 2px solid var(--outline);
-    box-shadow: var(--bevel);
-    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.render-btn:hover::after {
-    background: var(--bg-hover);
-    border-color: var(--outline-hover);
-    box-shadow: var(--bevel-hover);
-}
-
-.render-btn:active::after {
-    background: var(--bg-in);
-    box-shadow: var(--bevel-in);
-}
-
 .skin-canvas {
     position: absolute;
     inset: 0;
