@@ -8,6 +8,7 @@
 
 :root {
     --ok: #5ac54f;
+
     --text: #f5f0f2;
     --text-alt: #d9cfd4;
     --text-muted: #a6989f;
@@ -16,20 +17,25 @@
     --bg-hover: #261f23;
     --bg-in: #100d0f;
     --bg-in-hover: #191417;
+    --bg-panel: rgba(25, 20, 23, 0.94);
+
     --outline: #3d3137;
     --outline-hover: #c29b88;
 
-    --bg-panel: rgba(25, 20, 23, 0.94);
     --shadow-panel: 0 12px 32px rgba(0, 0, 0, 0.6);
 
-    --bevel: inset 4px 4px 0 #261f23,
-             inset -4px -4px 0 #100d0f;
-    --bevel-hover: inset 4px 4px 0 #31282d,
-                   inset -4px -4px 0 #191417;
-    --bevel-in: inset 4px 4px 0 #080607,
-                inset -4px -4px 0 #261f23;
-    --bevel-in-hover: inset 4px 4px 0 #100d0f,
-                      inset -4px -4px 0 #31282d;
+    --bevel:
+        inset 4px 4px 0 #261f23,
+        inset -4px -4px 0 #100d0f;
+    --bevel-hover:
+        inset 4px 4px 0 #31282d,
+        inset -4px -4px 0 #191417;
+    --bevel-in:
+        inset 4px 4px 0 #080607,
+        inset -4px -4px 0 #261f23;
+    --bevel-in-hover:
+        inset 4px 4px 0 #100d0f,
+        inset -4px -4px 0 #31282d;
 }
 
 *,
@@ -38,6 +44,11 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+- {
+    scrollbar-width: thin;
+    scrollbar-color: var(--bg-hover) var(--bg-in);
 }
 
 html {
@@ -58,19 +69,14 @@ body {
     animation: scrollDiagonal 6s linear infinite;
 }
 
-@keyframes scrollDiagonal {
-    from { background-position: 0 0; }
-    to   { background-position: 128px 128px; }
-}
-
 :focus-visible {
     outline: 3px solid var(--outline-hover);
     outline-offset: 3px;
 }
 
-* {
-    scrollbar-width: thin;
-    scrollbar-color: var(--bg-hover) var(--bg-in);
+@keyframes scrollDiagonal {
+    from { background-position: 0 0; }
+    to   { background-position: 128px 128px; }
 }
 
 ::-webkit-scrollbar {
@@ -100,12 +106,11 @@ body {
     position: fixed;
     inset: 0;
     display: flex;
-    width: 100%;
-    height: 100%;
     overflow: hidden;
 }
 
 .main-content {
+    position: relative;
     flex: 1;
     min-width: 0;
     min-height: 0;
@@ -113,6 +118,10 @@ body {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     background: radial-gradient(ellipse at center, transparent 40%, rgba(16, 13, 15, 0.65) 100%);
+}
+
+.main-content:focus {
+    outline: none; 
 }
 
 .content {
@@ -139,17 +148,15 @@ body {
 .sidebar-header {
     display: block;
     margin-bottom: 28px;
-    padding: 0;
     overflow: hidden;
     text-decoration: none;
     background-color: var(--bg-in);
     box-shadow: var(--bevel-in);
-    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .sidebar-header:hover {
     background-color: var(--bg-in-hover);
-    border-color: var(--outline-hover);
     box-shadow: var(--bevel-in-hover);
 }
 
@@ -175,7 +182,12 @@ body {
     color: var(--text-muted);
     text-decoration: none;
     border-left: 4px solid transparent;
-    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .nav-link:hover,
@@ -188,15 +200,6 @@ body {
 
 .nav-link.active {
     border-left-color: var(--outline-hover);
-}
-
-.sidebar-footer {
-    margin-top: auto;
-    padding-top: 16px;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    border-top: 3px solid var(--outline);
-    box-shadow: 0 -3px 0 var(--bg-in);
 }
 
 .section {
@@ -241,8 +244,6 @@ body {
     overflow: hidden;
     background: var(--bg-in);
     box-shadow: var(--bevel-in);
-    image-rendering: auto;
-    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .avatar img {
@@ -268,13 +269,13 @@ body {
     color: var(--text-alt);
 }
 
-.status {
+.about-body .status {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-top: 18px;
-    font-size: 0.95rem !important;
-    color: var(--text) !important;
+    font-size: 0.95rem;
+    color: var(--text);
 }
 
 .status-dot {
@@ -300,12 +301,11 @@ body {
     text-decoration: none;
     background: var(--bg);
     box-shadow: var(--bevel);
-    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
 }
 
 .btn:hover {
     background: var(--bg-hover);
-    border-color: var(--outline-hover);
     box-shadow: var(--bevel-hover);
 }
 
@@ -328,7 +328,6 @@ body {
 
 .btn-icon:hover {
     background: var(--bg-in-hover);
-    border-color: var(--outline-hover);
     box-shadow: var(--bevel-in-hover);
 }
 
@@ -358,7 +357,11 @@ body {
     background: var(--bg-panel);
     border: 4px solid var(--outline);
     box-shadow: var(--bevel), 0 8px 20px rgba(0, 0, 0, 0.4);
-    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
 }
 
 .item:hover {
@@ -407,7 +410,6 @@ body {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    background-color: transparent;
     image-rendering: auto;
 }
 
@@ -419,7 +421,6 @@ body {
     cursor: pointer;
     background: none;
     border: 0;
-    opacity: 1;
     transition: opacity 0.3s ease-in-out;
 }
 
@@ -430,6 +431,7 @@ body {
 .render-btn[hidden] {
     display: none;
 }
+
 .skin-canvas {
     position: absolute;
     inset: 0;
@@ -456,7 +458,6 @@ body {
 
     .sidebar {
         flex-direction: row;
-        flex-shrink: 0;
         align-items: center;
         gap: 12px;
         width: 100%;
@@ -470,17 +471,12 @@ body {
     .sidebar-header {
         flex-shrink: 0;
         margin-bottom: 0;
-        padding: 0;
     }
 
     .sidebar-banner {
         width: 44px;
         height: 44px;
         object-fit: contain;
-    }
-
-    .sidebar-footer {
-        display: none;
     }
 
     .sidebar-nav {
@@ -507,10 +503,6 @@ body {
     }
 
     .main-content {
-        flex: 1;
-        min-height: 0;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
         padding: 28px 16px 64px;
     }
 
@@ -547,7 +539,7 @@ body {
         animation: none;
     }
 
-    * {
+- {
         transition: none !important;
     }
 }
