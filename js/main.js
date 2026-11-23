@@ -1,11 +1,14 @@
+const FADE_DURATION = 300;
 const skinItems = [...document.querySelectorAll('.item[data-skin]')];
-let active = null;
-const FADE = 300;
 
-const closeActive = () => {
-    if (!active) return;
-    const { item, viewer, canvas, btn, timer } = active;
-    active = null;
+let activeSkin = null;
+
+const closeActiveSkin = () => {
+    if (!activeSkin) return;
+
+    const { item, viewer, canvas, btn, timer } = activeSkin;
+    activeSkin = null;
+
     clearTimeout(timer);
     item.classList.remove('is-3d');
 
@@ -14,18 +17,21 @@ const closeActive = () => {
     btn.classList.remove('fade-out');
 
     canvas.classList.remove('loaded');
+
     setTimeout(() => {
         viewer.dispose();
         canvas.remove();
-    }, FADE);
+    }, FADE_DURATION);
 };
 
-const openSkin = item => {
-    if (active && active.item === item) return;
-    closeActive();
+const openSkin = (item) => {
+    if (activeSkin?.item === item) return;
+
+    closeActiveSkin();
 
     const thumb = item.querySelector('.thumb');
     const btn = item.querySelector('.render-btn');
+    if (!thumb || !btn) return;
 
     const canvas = document.createElement('canvas');
     canvas.className = 'skin-canvas';
@@ -52,75 +58,85 @@ const openSkin = item => {
 
     const timer = setTimeout(() => {
         btn.hidden = true;
-    }, FADE);
+    }, FADE_DURATION);
 
-    active = { item, viewer, canvas, btn, timer };
+    activeSkin = { item, viewer, canvas, btn, timer };
 };
 
-skinItems.forEach(item => {
+skinItems.forEach((item) => {
     const btn = item.querySelector('.render-btn');
-    if (btn) {
-        btn.addEventListener('click', () => openSkin(item));
-    }
+    btn?.addEventListener('click', () => openSkin(item));
 });
 
-document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeActive();
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeActiveSkin();
 });
 
 window.addEventListener('resize', () => {
-    if (!active) return;
-    const thumb = active.item.querySelector('.thumb');
-    active.viewer.setSize(thumb.clientWidth, thumb.clientHeight);
+    if (!activeSkin) return;
+
+    const thumb = activeSkin.item.querySelector('.thumb');
+    if (thumb) {
+        activeSkin.viewer.setSize(thumb.clientWidth, thumb.clientHeight);
+    }
 });
+
+
 
 const navLinks = [...document.querySelectorAll('.nav-link')];
 const mainContent = document.querySelector('.main-content');
 const sections = [...document.querySelectorAll('.section[id]')];
 
-const setActiveNav = targetLink => {
-    navLinks.forEach(link => link.classList.remove('active'));
-    if (targetLink) targetLink.classList.add('active');
+const setActiveNav = (targetLink) => {
+    navLinks.forEach((link) => link.classList.remove('active'));
+    targetLink?.classList.add('active');
 };
 
-navLinks.forEach(link => {
-    link.addEventListener('click', e => {
+navLinks.forEach((link) => {
+    link.addEventListener('click', (e) => {
         const href = link.getAttribute('href');
-        if (href && href.startsWith('#')) {
-            const target = document.querySelector(href);
-            if (target && mainContent) {
-                e.preventDefault();
-                setActiveNav(link);
-                mainContent.focus({ preventScroll: true });
+        if (!href?.startsWith('#')) return;
 
-                const top = target.offsetTop - 24;
-                mainContent.scrollTo({
-                    top: Math.max(0, top),
-                    behavior: 'smooth'
-                });
+        const target = document.querySelector(href);
+        if (!target || !mainContent) return;
 
-                history.pushState(null, '', href);
-            }
-        }
+        e.preventDefault();
+        setActiveNav(link);
+        mainContent.focus({ preventScroll: true });
+
+        const top = Math.max(0, target.offsetTop - 24);
+        mainContent.scrollTo({ top, behavior: 'smooth' });
+
+        history.pushState(null, '', href);
     });
 });
 
 if (mainContent && sections.length > 0) {
-    mainContent.addEventListener('scroll', () => {
+    let isTicking = false;
+
+    const updateScrollSpy = () => {
         let currentId = '';
 
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - 120;
-            if (mainContent.scrollTop >= sectionTop) {
-                currentId = section.getAttribute('id');
+        for (const section of sections) {
+            if (mainContent.scrollTop >= section.offsetTop - 120) {
+                currentId = section.id;
             }
-        });
+        }
 
         if (currentId) {
-            const activeLink = navLinks.find(link => link.getAttribute('href') === `#${currentId}`);
+            const activeLink = navLinks.find((link) => link.getAttribute('href') === `#${currentId}`);
             if (activeLink) setActiveNav(activeLink);
+        }
+
+        isTicking = false;
+    };
+
+    mainContent.addEventListener('scroll', () => {
+        if (!isTicking) {
+            requestAnimationFrame(updateScrollSpy);
+            isTicking = true;
         }
     }, { passive: true });
 }
 
-if (mainContent) mainContent.focus({ preventScroll: true });
+mainContent?.focus({ preventScroll: true });
