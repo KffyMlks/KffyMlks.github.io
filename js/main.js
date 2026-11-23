@@ -91,6 +91,7 @@ navLinks.forEach(link => {
             if (target && mainContent) {
                 e.preventDefault();
                 setActiveNav(link);
+                mainContent.focus({ preventScroll: true });
 
                 const top = target.offsetTop - 24;
                 mainContent.scrollTo({
@@ -121,3 +122,5 @@ if (mainContent && sections.length > 0) {
         }
     }, { passive: true });
 }
+
+if (mainContent) mainContent.focus({ preventScroll: true });
