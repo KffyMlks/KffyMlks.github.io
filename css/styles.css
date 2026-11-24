@@ -46,7 +46,7 @@
     padding: 0;
 }
 
-- {
+* {
     scrollbar-width: thin;
     scrollbar-color: var(--bg-hover) var(--bg-in);
 }
@@ -92,7 +92,6 @@ body {
 
 ::-webkit-scrollbar-thumb {
     background-color: var(--bg);
-    border: 2px solid var(--outline);
     box-shadow: var(--bevel);
 }
 
