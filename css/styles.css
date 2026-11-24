@@ -80,7 +80,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 15px;
     height: 10px;
 }
 
@@ -98,7 +98,6 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background-color: var(--bg-hover);
-    border-color: var(--outline-hover);
     box-shadow: var(--bevel-hover);
 }
 
